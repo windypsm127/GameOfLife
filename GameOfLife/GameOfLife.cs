@@ -15,6 +15,7 @@ namespace GameOfLife
     {
         public int[,] cellStatus;
         public bool disFlag = false;
+        bool initFlag = true;
         Thread thdDisplay;
         Graphics gra;
         int delayTime = 1;
@@ -23,7 +24,8 @@ namespace GameOfLife
         {
             InitializeComponent();
             cellStatus = new int[20, 20];
-           gra = this.pictureBox1.CreateGraphics();
+            initArray();
+            gra = this.pictureBox1.CreateGraphics();
   
             Control.CheckForIllegalCrossThreadCalls = false;
         }
@@ -120,12 +122,12 @@ namespace GameOfLife
                     if(cellStatus[i,j]==1)
                     {
                         Brush brush = new SolidBrush(Color.Pink);
-                        gra.FillEllipse(brush,10 + i * 10, 10 + j * 10, 10, 10);
+                        gra.FillEllipse(brush,5 + i * 20, 5 + j * 20, 20, 20);
                     }
                     else
                     {
                         Brush brush = new SolidBrush(Color.White);
-                        gra.FillEllipse(brush, 10 + i * 10, 10 + j * 10, 10, 10);
+                        gra.FillEllipse(brush, 5 + i * 20, 5 + j * 20, 20, 20);
                     }
 
                 }
@@ -139,7 +141,7 @@ namespace GameOfLife
         {
 
             //Pen pen = new Pen(Color.Pink);
-            if (btn_start.Text=="开始")
+            if (btn_start.Text == "开始")
             {
                 btn_start.Text = "停止";
                 disFlag = true;
@@ -149,12 +151,12 @@ namespace GameOfLife
             else
             {
                 btn_start.Text = "开始";
-                if((thdDisplay!=null)&&(thdDisplay.IsAlive))
+                if ((thdDisplay != null) && (thdDisplay.IsAlive))
                 {
                     disFlag = false;
                     thdDisplay.Join();
-                }                  
-                
+                }
+
             }
 
 
@@ -172,8 +174,8 @@ namespace GameOfLife
 
         private void GameOfLife_Load(object sender, EventArgs e)
         {
-            initArray();
-            showStatus();
+
+
         }
 
         private void GameOfLife_FormClosing(object sender, FormClosingEventArgs e)
@@ -197,6 +199,37 @@ namespace GameOfLife
                         delayTime = tmpValue;
                     }
                 }
+            }
+        }
+
+        private void GameOfLife_Paint(object sender, PaintEventArgs e)
+        {
+
+            if(initFlag)
+            {
+                showStatus();
+                initFlag = false;
+            }
+            else
+            {
+
+            }       
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button==MouseButtons.Left)
+            {
+                Point pt = e.Location;
+                if((pt.X>=10)&&(pt.Y>=10))
+                {
+                    int XIndex = (int)Math.Floor((pt.X - 5) / 20.0);
+                    int YIndex= (int)Math.Floor((pt.Y - 5) / 20.0);
+                    cellStatus[XIndex, YIndex] = Math.Abs(cellStatus[XIndex, YIndex] - 1);
+
+                }
+                showStatus();
+
             }
         }
     }

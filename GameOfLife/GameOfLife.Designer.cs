@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameOfLife));
             this.btn_start = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txt_tm = new System.Windows.Forms.TextBox();
@@ -37,22 +38,25 @@
             // 
             // btn_start
             // 
-            this.btn_start.Location = new System.Drawing.Point(589, 28);
+            this.btn_start.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btn_start.Location = new System.Drawing.Point(587, 33);
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(75, 23);
+            this.btn_start.Size = new System.Drawing.Size(75, 33);
             this.btn_start.TabIndex = 1;
             this.btn_start.Text = "开始";
-            this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.UseVisualStyleBackColor = false;
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(300, 300);
+            this.pictureBox1.Size = new System.Drawing.Size(420, 420);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // txt_tm
             // 
@@ -76,15 +80,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lbl_refresh);
             this.Controls.Add(this.txt_tm);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btn_start);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameOfLife";
             this.Text = "生命游戏";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOfLife_FormClosing);
             this.Load += new System.EventHandler(this.GameOfLife_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameOfLife_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
