@@ -15,12 +15,11 @@ namespace GameOfLife
     {
         public int[,] cellStatus;
         public bool disFlag = false;
-        bool initFlag = true;
         Thread thdDisplay;
         Graphics gra;
         int delayTime = 1;
-        int PBX_SIZE = 400;
-        int INIT_POS = 10;
+        int PBX_SIZE = 550;
+        int INIT_POS = 0;
 
 
         public GameOfLife()
@@ -29,7 +28,7 @@ namespace GameOfLife
             cellStatus = new int[10, 10];
             initArray();
             gra = this.pbx_stat.CreateGraphics();
-
+            showStatus();
             Control.CheckForIllegalCrossThreadCalls = false;
         }
 
@@ -176,12 +175,6 @@ namespace GameOfLife
             }
         }
 
-        private void GameOfLife_Load(object sender, EventArgs e)
-        {
-
-
-        }
-
         private void GameOfLife_FormClosing(object sender, FormClosingEventArgs e)
         {
             if ((thdDisplay != null) && (thdDisplay.IsAlive))
@@ -203,20 +196,6 @@ namespace GameOfLife
                         delayTime = tmpValue;
                     }
                 }
-            }
-        }
-
-        private void GameOfLife_Paint(object sender, PaintEventArgs e)
-        {
-
-            if (initFlag)
-            {
-                showStatus();
-                initFlag = false;
-            }
-            else
-            {
-
             }
         }
 
