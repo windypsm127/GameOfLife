@@ -58,6 +58,21 @@ namespace GameOfLife.Tests
             Assert.AreEqual(4, test.getCellNum(1, 0));
             Assert.AreEqual(5, test.getCellNum(1, 2));
         }
+
+        [TestMethod()]
+        public void shouldGetDiameter()
+        {
+
+            GameOfLife test = new GameOfLife();
+            test.cellStatus = new int[4, 4];
+            int actualDia = 0;
+            float actualOff = 0.0f;
+            test.getPaintParam(ref actualDia, ref actualOff);
+
+            Assert.AreEqual(100,actualDia);
+            Assert.AreEqual(0,actualOff);
+           
+        }
     }
 }
 

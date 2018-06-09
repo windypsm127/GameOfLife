@@ -19,6 +19,9 @@ namespace GameOfLife
         Thread thdDisplay;
         Graphics gra;
         int delayTime = 1;
+        int PBX_SIZE = 400;
+        int INIT_POS = 10;
+
 
         public GameOfLife()
         {
@@ -113,8 +116,9 @@ namespace GameOfLife
         {
             int tmpRow = cellStatus.GetLength(0);
             int tmpCol = cellStatus.GetLength(1);
-            int tmpD = 400 / tmpRow;
-            float remaind = (400 % tmpRow)/2.0f;
+            int diameter = 0;
+            float offset = 0.0f;
+            getPaintParam(ref diameter, ref offset);
             for (int i = 0; i < tmpRow; i++)
             {
                 for (int j = 0; j < tmpCol; j++)
@@ -122,12 +126,12 @@ namespace GameOfLife
                     if (cellStatus[i, j] == 1)
                     {
                         Brush brush = new SolidBrush(Color.Pink);
-                        gra.FillEllipse(brush, 10 + remaind + i * tmpD, 10 + remaind + j * tmpD, tmpD, tmpD);
+                        gra.FillEllipse(brush, INIT_POS + offset + i * diameter, INIT_POS + offset + j * diameter, diameter, diameter);
                     }
                     else
                     {
                         Brush brush = new SolidBrush(Color.White);
-                        gra.FillEllipse(brush, 10 + remaind + i * tmpD, 10 + remaind + j * tmpD, tmpD, tmpD);
+                        gra.FillEllipse(brush, INIT_POS + offset + i * diameter, INIT_POS + offset + j * diameter, diameter, diameter);
                     }
 
                 }
@@ -221,10 +225,14 @@ namespace GameOfLife
             if (e.Button == MouseButtons.Left)
             {
                 Point pt = e.Location;
-                if ((pt.X >= 10) && (pt.Y >= 10))
+                int diameter = 0;
+                float offset = 0.0f;
+                getPaintParam(ref diameter, ref offset);
+
+                if ((pt.X >= INIT_POS+offset) && (pt.Y >= INIT_POS+offset)&&(pt.X<=PBX_SIZE-INIT_POS-offset)&&(pt.Y<= PBX_SIZE - INIT_POS - offset))
                 {
-                    int XIndex = (int)Math.Floor((pt.X - 5) / 20.0);
-                    int YIndex = (int)Math.Floor((pt.Y - 5) / 20.0);
+                    int XIndex = (int)Math.Floor((pt.X - INIT_POS-offset) / diameter);
+                    int YIndex = (int)Math.Floor((pt.Y - INIT_POS - offset) / diameter);
                     cellStatus[XIndex, YIndex] = Math.Abs(cellStatus[XIndex, YIndex] - 1);
 
                 }
@@ -273,6 +281,13 @@ namespace GameOfLife
                     }
                 }
             }
+        }
+        public void getPaintParam(ref int diameter,ref float offset)
+        {
+            int tmpRow = cellStatus.GetLength(0);
+            diameter = PBX_SIZE / tmpRow;
+            offset = (PBX_SIZE % tmpRow) / 2.0f;
+
         }
     }
 }
