@@ -14,14 +14,17 @@ namespace GameOfLife
     public partial class GameOfLife : Form
     {
         public int[,] cellStatus;
-        public bool flag = false;
+        public bool disFlag = false;
+        Thread thdDisplay;
+        Graphics gra; 
 
         public GameOfLife()
         {
             InitializeComponent();
-            cellStatus = new int[10, 10];
-            initArray();
-            showStatus();
+            cellStatus = new int[20, 20];
+           gra = this.pictureBox1.CreateGraphics();
+  
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         public void initArray()
@@ -105,30 +108,80 @@ namespace GameOfLife
 
         public void showStatus()
         {
-            string tmpStr = null;
+
+
             int tmpRow = cellStatus.GetLength(0);
             int tmpCol = cellStatus.GetLength(1);
             for (int i = 0; i < tmpRow; i++)
             {
                 for (int j = 0; j < tmpCol; j++)
                 {
-                    tmpStr += cellStatus[i, j].ToString() + "  ";
+                    if(cellStatus[i,j]==1)
+                    {
+                        Brush brush = new SolidBrush(Color.Pink);
+                        gra.FillEllipse(brush,10 + i * 10, 10 + j * 10, 10, 10);
+                    }
+                    else
+                    {
+                        Brush brush = new SolidBrush(Color.White);
+                        gra.FillEllipse(brush, 10 + i * 10, 10 + j * 10, 10, 10);
+                    }
 
                 }
-                tmpStr += "\n";
+
             }
-            lbl_stat.Text = tmpStr;
+
         }
 
 
         public void btn_start_Click(object sender, EventArgs e)
         {
 
+            //Pen pen = new Pen(Color.Pink);
+            if (btn_start.Text=="开始")
+            {
+                btn_start.Text = "停止";
+                disFlag = true;
+                thdDisplay = new Thread(displayCell);
+                thdDisplay.Start();
+            }
+            else
+            {
+                btn_start.Text = "开始";
+                if((thdDisplay!=null)&&(thdDisplay.IsAlive))
+                {
+                    disFlag = false;
+                    thdDisplay.Join();
+                }                  
+                
+            }
 
-            Thread.Sleep(1000);
-            getStatus();
+
+        }
+
+        public void displayCell()
+        {
+            while(disFlag)
+            {
+                Thread.Sleep(1000);
+                getStatus();
+                showStatus();
+            }         
+        }
+
+        private void GameOfLife_Load(object sender, EventArgs e)
+        {
+            initArray();
             showStatus();
+        }
 
+        private void GameOfLife_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if((thdDisplay!=null)&&(thdDisplay.IsAlive))
+            {
+                disFlag = false;
+                thdDisplay.Join();
+            }
         }
     }
 }
