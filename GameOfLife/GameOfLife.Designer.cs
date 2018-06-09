@@ -30,12 +30,14 @@
         {
             this.btn_start = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.txt_tm = new System.Windows.Forms.TextBox();
+            this.lbl_refresh = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_start
             // 
-            this.btn_start.Location = new System.Drawing.Point(330, 351);
+            this.btn_start.Location = new System.Drawing.Point(589, 28);
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(75, 23);
             this.btn_start.TabIndex = 1;
@@ -52,11 +54,31 @@
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
+            // txt_tm
+            // 
+            this.txt_tm.Location = new System.Drawing.Point(587, 105);
+            this.txt_tm.Name = "txt_tm";
+            this.txt_tm.Size = new System.Drawing.Size(68, 21);
+            this.txt_tm.TabIndex = 3;
+            this.txt_tm.Text = "1";
+            this.txt_tm.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_tm_KeyDown);
+            // 
+            // lbl_refresh
+            // 
+            this.lbl_refresh.AutoSize = true;
+            this.lbl_refresh.Location = new System.Drawing.Point(587, 90);
+            this.lbl_refresh.Name = "lbl_refresh";
+            this.lbl_refresh.Size = new System.Drawing.Size(77, 12);
+            this.lbl_refresh.TabIndex = 4;
+            this.lbl_refresh.Text = "刷新时间(ms)";
+            // 
             // GameOfLife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbl_refresh);
+            this.Controls.Add(this.txt_tm);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btn_start);
             this.Name = "GameOfLife";
@@ -72,6 +94,8 @@
         #endregion
         private System.Windows.Forms.Button btn_start;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox txt_tm;
+        private System.Windows.Forms.Label lbl_refresh;
     }
 }
 

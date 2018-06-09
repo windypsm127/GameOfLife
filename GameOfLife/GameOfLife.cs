@@ -16,7 +16,8 @@ namespace GameOfLife
         public int[,] cellStatus;
         public bool disFlag = false;
         Thread thdDisplay;
-        Graphics gra; 
+        Graphics gra;
+        int delayTime = 1;
 
         public GameOfLife()
         {
@@ -163,7 +164,7 @@ namespace GameOfLife
         {
             while(disFlag)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(delayTime);
                 getStatus();
                 showStatus();
             }         
@@ -181,6 +182,21 @@ namespace GameOfLife
             {
                 disFlag = false;
                 thdDisplay.Join();
+            }
+        }
+
+        private void txt_tm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.Enter)
+            {
+                if(txt_tm.Text!="")
+                {
+                    int tmpValue = Convert.ToInt32(txt_tm.Text);
+                    if(tmpValue>=0)
+                    {
+                        delayTime = tmpValue;
+                    }
+                }
             }
         }
     }
