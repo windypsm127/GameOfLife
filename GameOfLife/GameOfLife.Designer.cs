@@ -30,10 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameOfLife));
             this.btn_start = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbx_stat = new System.Windows.Forms.PictureBox();
             this.txt_tm = new System.Windows.Forms.TextBox();
             this.lbl_refresh = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.btn_reset = new System.Windows.Forms.Button();
+            this.txt_num = new System.Windows.Forms.TextBox();
+            this.lbl_num = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pbx_stat)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_start
@@ -43,24 +46,24 @@
             this.btn_start.Name = "btn_start";
             this.btn_start.Size = new System.Drawing.Size(75, 33);
             this.btn_start.TabIndex = 1;
-            this.btn_start.Text = "开始";
+            this.btn_start.Text = "Start";
             this.btn_start.UseVisualStyleBackColor = false;
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
-            // pictureBox1
+            // pbx_stat
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(420, 420);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pbx_stat.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.pbx_stat.Location = new System.Drawing.Point(12, 12);
+            this.pbx_stat.Name = "pbx_stat";
+            this.pbx_stat.Size = new System.Drawing.Size(420, 420);
+            this.pbx_stat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbx_stat.TabIndex = 2;
+            this.pbx_stat.TabStop = false;
+            this.pbx_stat.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbx_stat_MouseClick);
             // 
             // txt_tm
             // 
-            this.txt_tm.Location = new System.Drawing.Point(587, 105);
+            this.txt_tm.Location = new System.Drawing.Point(587, 188);
             this.txt_tm.Name = "txt_tm";
             this.txt_tm.Size = new System.Drawing.Size(68, 21);
             this.txt_tm.TabIndex = 3;
@@ -70,11 +73,39 @@
             // lbl_refresh
             // 
             this.lbl_refresh.AutoSize = true;
-            this.lbl_refresh.Location = new System.Drawing.Point(587, 90);
+            this.lbl_refresh.Location = new System.Drawing.Point(572, 173);
             this.lbl_refresh.Name = "lbl_refresh";
-            this.lbl_refresh.Size = new System.Drawing.Size(77, 12);
+            this.lbl_refresh.Size = new System.Drawing.Size(101, 12);
             this.lbl_refresh.TabIndex = 4;
-            this.lbl_refresh.Text = "刷新时间(ms)";
+            this.lbl_refresh.Text = "Refresh Time(ms)";
+            // 
+            // btn_reset
+            // 
+            this.btn_reset.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btn_reset.Location = new System.Drawing.Point(587, 103);
+            this.btn_reset.Name = "btn_reset";
+            this.btn_reset.Size = new System.Drawing.Size(75, 33);
+            this.btn_reset.TabIndex = 5;
+            this.btn_reset.Text = "Reset";
+            this.btn_reset.UseVisualStyleBackColor = false;
+            this.btn_reset.Click += new System.EventHandler(this.btn_reset_Click);
+            // 
+            // txt_num
+            // 
+            this.txt_num.Location = new System.Drawing.Point(587, 256);
+            this.txt_num.Name = "txt_num";
+            this.txt_num.Size = new System.Drawing.Size(68, 21);
+            this.txt_num.TabIndex = 6;
+            this.txt_num.Text = "10";
+            this.txt_num.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_num_KeyDown);
+            // 
+            // lbl_num
+            // 
+            this.lbl_num.Location = new System.Drawing.Point(554, 241);
+            this.lbl_num.Name = "lbl_num";
+            this.lbl_num.Size = new System.Drawing.Size(147, 12);
+            this.lbl_num.TabIndex = 4;
+            this.lbl_num.Text = "Number of Rows(Columns)";
             // 
             // GameOfLife
             // 
@@ -82,17 +113,20 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txt_num);
+            this.Controls.Add(this.btn_reset);
+            this.Controls.Add(this.lbl_num);
             this.Controls.Add(this.lbl_refresh);
             this.Controls.Add(this.txt_tm);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pbx_stat);
             this.Controls.Add(this.btn_start);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GameOfLife";
-            this.Text = "生命游戏";
+            this.Text = "GameOfLife";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameOfLife_FormClosing);
             this.Load += new System.EventHandler(this.GameOfLife_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameOfLife_Paint);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbx_stat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -100,9 +134,12 @@
 
         #endregion
         private System.Windows.Forms.Button btn_start;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbx_stat;
         private System.Windows.Forms.TextBox txt_tm;
         private System.Windows.Forms.Label lbl_refresh;
+        private System.Windows.Forms.Button btn_reset;
+        private System.Windows.Forms.TextBox txt_num;
+        private System.Windows.Forms.Label lbl_num;
     }
 }
 

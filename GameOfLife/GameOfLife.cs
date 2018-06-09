@@ -23,10 +23,10 @@ namespace GameOfLife
         public GameOfLife()
         {
             InitializeComponent();
-            cellStatus = new int[20, 20];
+            cellStatus = new int[10, 10];
             initArray();
-            gra = this.pictureBox1.CreateGraphics();
-  
+            gra = this.pbx_stat.CreateGraphics();
+
             Control.CheckForIllegalCrossThreadCalls = false;
         }
 
@@ -111,23 +111,23 @@ namespace GameOfLife
 
         public void showStatus()
         {
-
-
             int tmpRow = cellStatus.GetLength(0);
             int tmpCol = cellStatus.GetLength(1);
+            int tmpD = 400 / tmpRow;
+            float remaind = (400 % tmpRow)/2.0f;
             for (int i = 0; i < tmpRow; i++)
             {
                 for (int j = 0; j < tmpCol; j++)
                 {
-                    if(cellStatus[i,j]==1)
+                    if (cellStatus[i, j] == 1)
                     {
                         Brush brush = new SolidBrush(Color.Pink);
-                        gra.FillEllipse(brush,5 + i * 20, 5 + j * 20, 20, 20);
+                        gra.FillEllipse(brush, 10 + remaind + i * tmpD, 10 + remaind + j * tmpD, tmpD, tmpD);
                     }
                     else
                     {
                         Brush brush = new SolidBrush(Color.White);
-                        gra.FillEllipse(brush, 5 + i * 20, 5 + j * 20, 20, 20);
+                        gra.FillEllipse(brush, 10 + remaind + i * tmpD, 10 + remaind + j * tmpD, tmpD, tmpD);
                     }
 
                 }
@@ -141,16 +141,16 @@ namespace GameOfLife
         {
 
             //Pen pen = new Pen(Color.Pink);
-            if (btn_start.Text == "开始")
+            if (btn_start.Text == "Start")
             {
-                btn_start.Text = "停止";
+                btn_start.Text = "Stop";
                 disFlag = true;
                 thdDisplay = new Thread(displayCell);
                 thdDisplay.Start();
             }
             else
             {
-                btn_start.Text = "开始";
+                btn_start.Text = "Start";
                 if ((thdDisplay != null) && (thdDisplay.IsAlive))
                 {
                     disFlag = false;
@@ -164,12 +164,12 @@ namespace GameOfLife
 
         public void displayCell()
         {
-            while(disFlag)
+            while (disFlag)
             {
                 Thread.Sleep(delayTime);
                 getStatus();
                 showStatus();
-            }         
+            }
         }
 
         private void GameOfLife_Load(object sender, EventArgs e)
@@ -180,7 +180,7 @@ namespace GameOfLife
 
         private void GameOfLife_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if((thdDisplay!=null)&&(thdDisplay.IsAlive))
+            if ((thdDisplay != null) && (thdDisplay.IsAlive))
             {
                 disFlag = false;
                 thdDisplay.Join();
@@ -189,12 +189,12 @@ namespace GameOfLife
 
         private void txt_tm_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                if(txt_tm.Text!="")
+                if (txt_tm.Text != "")
                 {
                     int tmpValue = Convert.ToInt32(txt_tm.Text);
-                    if(tmpValue>=0)
+                    if (tmpValue >= 0)
                     {
                         delayTime = tmpValue;
                     }
@@ -205,7 +205,7 @@ namespace GameOfLife
         private void GameOfLife_Paint(object sender, PaintEventArgs e)
         {
 
-            if(initFlag)
+            if (initFlag)
             {
                 showStatus();
                 initFlag = false;
@@ -213,23 +213,65 @@ namespace GameOfLife
             else
             {
 
-            }       
+            }
         }
 
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        private void pbx_stat_MouseClick(object sender, MouseEventArgs e)
         {
-            if(e.Button==MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 Point pt = e.Location;
-                if((pt.X>=10)&&(pt.Y>=10))
+                if ((pt.X >= 10) && (pt.Y >= 10))
                 {
                     int XIndex = (int)Math.Floor((pt.X - 5) / 20.0);
-                    int YIndex= (int)Math.Floor((pt.Y - 5) / 20.0);
+                    int YIndex = (int)Math.Floor((pt.Y - 5) / 20.0);
                     cellStatus[XIndex, YIndex] = Math.Abs(cellStatus[XIndex, YIndex] - 1);
 
                 }
                 showStatus();
 
+            }
+        }
+
+        private void btn_reset_Click(object sender, EventArgs e)
+        {
+
+            if ((thdDisplay != null) && (thdDisplay.IsAlive))
+            {
+                disFlag = false;
+                thdDisplay.Join();
+            }
+
+            btn_start.Text = "Start";
+            int tmpRow = cellStatus.GetLength(0);
+            int tmpCol = cellStatus.GetLength(1);
+            for (int i = 0; i < tmpRow; i++)
+            {
+                for (int j = 0; j < tmpCol; j++)
+                {
+                    cellStatus[i, j] = 0;
+                }
+            }
+            showStatus();
+        }
+
+        private void txt_num_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txt_num.Text != "")
+                {
+                    int tmpValue = Convert.ToInt32(txt_num.Text);
+                    if (tmpValue > 0)
+                    {
+                        cellStatus = new int[tmpValue, tmpValue];
+                        initArray();
+                        gra.Clear(pbx_stat.BackColor);
+                        Thread.Sleep(100);
+                        showStatus();
+
+                    }
+                }
             }
         }
     }
